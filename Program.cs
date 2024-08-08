@@ -26,6 +26,7 @@ builder.Services.AddAutoMapper(cfg =>
 {
     cfg.AddProfile<CustomerProfile>();
 });
+builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
 
 var app = builder.Build();
 
