@@ -6,6 +6,7 @@ using dotnetautomapper.Models.Customer;
 using dotnetautomapper.Profiles.Customer;
 using dotnetautomapper.Repositories.Customer;
 using dotnetautomapper.Repositories.Customer.Customer;
+using dotnetautomapper.Validators.Middleware;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -22,6 +23,7 @@ builder.Services.AddProblemDetails();
 builder.Services.AddControllers();
 builder.Services.AddTransient<IBaseRepository<CustomerBaseModel>, BaseRepository<CustomerBaseModel>>();
 builder.Services.AddTransient<ICustomerRepository, CustomerRepository>();
+builder.Services.AddTransient<ExceptionFluentValidateMiddleware>();
 builder.Services.AddAutoMapper(cfg =>
 {
     cfg.AddProfile<CustomerProfile>();
@@ -37,6 +39,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseMiddleware<ExceptionFluentValidateMiddleware>();
 app.UseHttpsRedirection();
 app.MapControllers();
 app.MapDefaultControllerRoute();
